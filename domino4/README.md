@@ -31,9 +31,8 @@ https://youtu.be/0_4YkKwnF3g?si=yrpoGscIAYSVUvvE
 모든 핀은 출력(`op`) 모드로 설정되며, 시작 시 초기 상태는 OFF(`dl`)입니다.
 
 ---
+## 회로 사진
+![image](https://github.com/user-attachments/assets/d48eb8a1-e78b-46c8-95ea-95ba745dbfc9)
+![image](https://github.com/user-attachments/assets/f8aef075-f012-4dd5-af4b-6a07daeb3e2f)
+![image](https://github.com/user-attachments/assets/b91167f5-109a-4eeb-9434-0a8f28fe1f06)
 
-
-
-1. **실행 권한 부여**:
-   ```bash
-   chmod +x domino4.sh
