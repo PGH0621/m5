@@ -4,6 +4,7 @@ pins=(14 15 18 23)
 
 for pin in "${pins[@]}"; do
 	pinctrl set "$pin" op
+	pinctrl set "$pin" dl
 done
 
 
