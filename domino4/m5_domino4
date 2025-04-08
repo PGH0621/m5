@@ -1,26 +1,16 @@
 #!/usr/bin/bash
-pin1=14
-pin2=15
-pin3=18
-pin4=23
 
-pinctrl set $pin1 op
-pinctrl set $pin2 op
-pinctrl set $pin3 op
-pinctrl set $pin4 op
+pins=(14 15 18 23)
 
-while true; do
-	pinctrl set $pin1 dh
-	sleep 1
-	pinctrl set $pin1 dl
-	pinctrl set $pin2 dh
-	sleep 1
-	pinctrl set $pin2 dl
-	pinctrl set $pin3 dh
-	sleep 1
-	pinctrl set $pin3 dl
-	pinctrl set $pin4 dh
-	sleep 1
-	pinctrl set $pin4 dl
+for pin in "${pins[@]}"; do
+	pinctrl set "$pin" op
 done
 
+
+while true; do
+	for pin in "${pins[@]}"; do
+		pinctrl set "$pin" dh
+		sleep 1
+		pinctrl set "$pin" dl
+	done
+done
