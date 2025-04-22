@@ -12,7 +12,7 @@ factory = LGPIOFactory()
 button = Button(25, pull_up=True, pin_factory=factory)
 
 # GPIO pins for the counter
-pins = [15, 18, 23]
+pins = [15, 18, 23, 24]
 
 # Initialize pins as output and set them to low
 for pin in pins:
@@ -31,17 +31,18 @@ def update_pins():
     
     # Update pins based on the binary representation of the counter
     # Each bit in the counter corresponds to a pin
-    if counter & 0b001:  # Check if the least significant bit is 1
+    if counter & 0b0001:  # Check if the least significant bit is 1
         subprocess.run(["pinctrl", "set", str(pins[0]), "dh"])
-    if counter & 0b010:  # Check if the second bit is 1
+    if counter & 0b0010:  # Check if the second bit is 1
         subprocess.run(["pinctrl", "set", str(pins[1]), "dh"])
-    if counter & 0b100:  # Check if the third bit is 1
+    if counter & 0b0100:  # Check if the third bit is 1
         subprocess.run(["pinctrl", "set", str(pins[2]), "dh"])
-
+    if counter & 0b1000:  # Check if the fourth bit is 1
+        subprocess.run(["pinctrl", "set", str(pins[3]), "dh"])
 # Function to handle button press
 def on_button_press():
     global counter
-    counter = (counter + 1) % 8  # Increment counter and wrap around at 8 (3 bits)
+    counter = (counter + 1) % 16  # Increment counter and wrap around at 8 (3 bits)
     update_pins()  # Update GPIO pins based on the new counter value
 
 # Attach the function to the button press
