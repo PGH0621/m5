@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+from gpiozero import LED, Button
+from gpiozero.pins.lgpio import LGPIOFactory
+from signal import pause
+
+# Set the pin factory to lgpio
+factory = LGPIOFactory()
+
+# Configure button and LEDs
+button = Button(25, pull_up=True, pin_factory=factory)
+leds = [LED(pin, pin_factory=factory) for pin in [15, 18, 23, 24]]
+
+# Variable to track LED state
+led_state = False
+
+# Function to toggle LEDs
+def toggle_leds():
+    global led_state
+    led_state = not led_state
+    for led in leds:
+        led.on() if led_state else led.off()
+
+# Attach the toggle function to the button press
+button.when_pressed = toggle_leds
+
+# Keep the program running
+pause()

@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+from gpiozero import LED, Button
+from gpiozero.pins.lgpio import LGPIOFactory
+from signal import pause
+import subprocess
+from threading import Thread
+from time import sleep
+
+# Set the pin factory to lgpio
+factory = LGPIOFactory()
+
+# Configure button and LEDs
+button = Button(25, pull_up=True, pin_factory=factory)
+leds = [LED(pin, pin_factory=factory) for pin in [15, 18, 23, 24]]
+
+# Function to execute the "domino4" logic one time
+def run_bash_logic_once():
+    pins = [15, 18, 23, 24]
+    for pin in pins:
+        subprocess.run(["pinctrl", "set", str(pin), "op"])
+        subprocess.run(["pinctrl", "set", str(pin), "dl"])
+    
+    # Execute the pin toggling sequence once
+    for pin in pins:
+        subprocess.run(["pinctrl", "set", str(pin), "dh"])
+        sleep(1)
+        subprocess.run(["pinctrl", "set", str(pin), "dl"])
+
+# Function to start the "domino4" logic when the button is pressed
+def start_domino_logic():
+    Thread(target=run_bash_logic_once, daemon=True).start()
+
+# Attach the function to the button press
+button.when_pressed = start_domino_logic
+
+# Keep the program running
+pause()

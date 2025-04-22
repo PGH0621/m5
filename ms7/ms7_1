@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+from gpiozero import LED, Button
+from gpiozero.pins.lgpio import LGPIOFactory
+from time import sleep
+
+# Set the pin factory to lgpio
+factory = LGPIOFactory()
+
+# Configure button and LEDs
+button = Button(25, pull_up=True, pin_factory=factory)
+leds = [LED(pin, pin_factory=factory) for pin in [15, 18, 23, 24]]
+
+# Main loop
+while True:
+    for led in leds:
+        led.on() if button.is_pressed else led.off()
+    
